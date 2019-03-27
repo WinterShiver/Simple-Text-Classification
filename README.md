@@ -14,6 +14,16 @@ Classification: sklearn.svm.SVC + [multi-class classification, binary-class clas
 
 Cross Validation: divide train and validation by a certain label(esp.by file), this supports [n-fold, leave-one-out]
 
+## File Description
+
+main.py: the main process
+
+func_\*.py: provide relevant function to main.py
+
+pre_data_cleaning.py: convert tmp_data_label.xlsx into tmp_data_label_cleaned.xlsx, not used in main.py
+
+\*.xlsx: text data used
+
 ## Modify
 
 To modify vectorizing methods provided, add methods to **func_vectorize.py**.
