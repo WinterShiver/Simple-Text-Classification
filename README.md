@@ -8,13 +8,9 @@ word2vec/word2vec_model.py must be run before running main.py, to generate w2v m
 
 ## Current Avaliable
 
-See in /code/README.md.
+See in code/README.md.
 
 ## File Description
-
-main.py: the main process
-
-func_\*.py: provide relevant function to main.py
 
 pre_data_cleaning.py: convert tmp_data_label.xlsx into tmp_data_label_cleaned.xlsx, not used in main.py
 
