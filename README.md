@@ -8,11 +8,7 @@ word2vec/word2vec_model.py must be run before running main.py, to generate w2v m
 
 ## Current Avaliable
 
-Vectorization: gensim.models.word2vec.Word2Vec + [add words to form sentences, link words to form sentences]
-
-Classification: sklearn.svm.SVC + [multi-class classification, binary-class classification with 1vsRest]
-
-Cross Validation: divide train and validation by a certain label(esp.by file), this supports [n-fold, leave-one-out]
+See in /code/README.md.
 
 ## File Description
 
