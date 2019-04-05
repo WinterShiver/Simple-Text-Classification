@@ -29,8 +29,11 @@ label_movestep = []
 
 # para: normal
 eps = 1e-3
-sen_num = 2000
+sen_num = 500
 # sen_num = 5042 # sen: index from 0 to 5042
+
+# para: vactorization
+data_vector_judge = False # True: no judge; False: judge by returning result of vectorization
 
 # para: undefined detection: not used
 # undefined = 0
@@ -54,8 +57,8 @@ sheet = wb.active
 except_num = 0
 for i in range(sen_num):
     data_str_elem = str(sheet.cell(row = i+2, column = 1).value)
-    data_vector_elem = vectorize(data_str_elem)
-    if max([abs(component) for component in data_vector_elem]) > eps:
+    [data_vector_elem, data_vector_ok, data_vector_word_count] = vectorize(data_str_elem)
+    if data_vector_judge or data_vector_ok:
         data_str.append(data_str_elem)
         data_vector.append(data_vector_elem)
         label_dir.append(str(sheet.cell(row = i+2, column = 2).value))

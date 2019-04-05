@@ -30,9 +30,9 @@ def vectorize_w2v_add(str):
         except KeyError:
             pass
     if count >= word_least:
-        return data_vector
+        return [data_vector, True, count]
     else:
-        return [0 for i in range(wv_dim)]
+        return [data_vector, False, count]
 
 def vectorize_w2v_link(str):
     data_vector = [0 for i in range(wv_dim * word_in_sen)]
@@ -53,9 +53,9 @@ def vectorize_w2v_link(str):
         except KeyError:
             pass
     if count == word_in_sen:
-        return data_vector
+        return [data_vector, True, count]
     else:
-        return [0 for i in range(wv_dim * word_in_sen)]
+        return [data_vector, False, count]
 
 # main focus
 vectorize = vectorize_w2v_link # vectorize_w2v_add vectorize_w2v_link
