@@ -10,7 +10,7 @@ from func_evaluation import *
 # from func_evaluation import show_evaluation
 
 
-def showTime(sec_num):
+def show_time(sec_num):
     # tell sec_num seconds properly
     hh = int(sec_num / 3600)
     sec_num = sec_num - hh * 3600
@@ -19,8 +19,15 @@ def showTime(sec_num):
     ss = int(sec_num)
     ms = round((sec_num - ss) * 1000)
     output_str = ""
-    if(hh != 0):
-        output_str + str(hh)
+    if(hh > 0):
+        output_str = output_str + str(hh) + "h"
+    if(mm > 0):
+        output_str = output_str + str(mm) + "m"
+    if(ss > 0):
+        output_str = output_str + str(ss) + "s"
+    if(ms > 0):
+        output_str = output_str + str(ms) + "ms"
+    return output_str
 
 def cv(all_data, all_label, all_batch):
     # divide train & validation due to batch
@@ -54,10 +61,10 @@ def cv(all_data, all_label, all_batch):
         train_confuse_matrix = train_confuse_matrix + tmp_train_confuse_matrix
         test_confuse_matrix = test_confuse_matrix + tmp_test_confuse_matrix
         # show
-        print("Batch:", batches.index(batch), "of", len(batches))
-        print("Time of this Batch:", format((time.process_time() - curr_time) / 60, '.2f'), "minutes")
+        print("Batch:", batches.index(batch) + 1, "of", len(batches))
+        print("Time of this Batch:", show_time(time.process_time() - curr_time))
         curr_time = time.process_time()
-        print("Current Process Time:", format(curr_time / 60,'.2f'), "minutes")
+        print("Current Process Time:", show_time(curr_time))
         print("Local Time:", time.asctime(time.localtime(time.time())))
         show_evaluation(tmp_test_confuse_matrix)
         print("Test Confuse Matrix:")
@@ -67,7 +74,7 @@ def cv(all_data, all_label, all_batch):
         # print(tmp_train_confuse_matrix)
     # final show
     print("Total Result")
-    print("Current Process Time:", format(time.process_time() / 60, '.2f'), "minutes")
+    print("Current Process Time:", show_time(time.process_time()))
     print("Local Time:", time.asctime(time.localtime(time.time())))
     show_evaluation(test_confuse_matrix)
     print(labels)
