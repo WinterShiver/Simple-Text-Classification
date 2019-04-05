@@ -9,9 +9,10 @@ import math
 from func_vectorize import *
 # from func_vectorize import vectorize
 from func_cv import *
+# from func_cv_multi_thread import *
 # from func_cv import cv
 from func_evaluation import *
-# from func_evaluation import show_evaluation
+# from func_evaluation import cv
 
 print("Start Processing")
 print("Local Time:", time.asctime(time.localtime(time.time())))
@@ -29,7 +30,7 @@ label_movestep = []
 
 # para: normal
 eps = 1e-3
-sen_num = 500
+sen_num = 1000
 # sen_num = 5042 # sen: index from 0 to 5042
 
 # para: vactorization
@@ -72,10 +73,10 @@ for i in range(sen_num):
 
 print(except_num, "Out of", sen_num, "Samples is Abandoned, Percentage =", format(except_num / sen_num * 100,'.2f'))
 
-label_batch = batch_generate(sen_num, batch_num)
+label_batch = batch_generate(sen_num - except_num, batch_num)
 
 print("Before CV, time =", time.process_time(), "seconds")
-cv(data_vector, label_move, label_batch)
+[test_confuse_matrix, train_confuse_matrix] = cv(data_vector, label_move, label_batch)
 
 
 

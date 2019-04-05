@@ -60,14 +60,22 @@ def cv(all_data, all_label, all_batch):
     tmp_test_confuse_matrix = [np.zeros((len(labels), len(labels))) for batch in batches]
     tmp_train_confuse_matrix = [np.zeros((len(labels), len(labels))) for batch in batches]
     curr_time = time.process_time()
-    for batch in batches:
-        [tmp_test_confuse_matrix[batches.index(batch)], tmp_train_confuse_matrix[batches.index(batch)], tmp_test_result] = cv_batch(all_data, all_label, all_batch, batch)
-        train_confuse_matrix = train_confuse_matrix + tmp_train_confuse_matrix[batches.index(batch)]
-        test_confuse_matrix = test_confuse_matrix + tmp_test_confuse_matrix[batches.index(batch)]
-        for i in range(len(all_result)):
-            if all_batch[i] == batch:
-                all_result[i] = tmp_test_result[i]
-        curr_time = time.process_time()
+    threads = []
+    for i in range(len(batches)):
+        t = MyThread(cv_batch, (all_data, all_label, all_batch, batches[i]), cv_batch.__name__)
+        threads.append(t)
+    for i in range(len(batches)):
+        threads[i].start()
+    for i in range(len(batches)):
+        threads[i].join()
+    for i in range(len(batches)):
+        [tmp_test_confuse_matrix[i], tmp_train_confuse_matrix[i], tmp_test_result] = threads[i].get_result()
+        train_confuse_matrix = train_confuse_matrix + tmp_train_confuse_matrix[i]
+        test_confuse_matrix = test_confuse_matrix + tmp_test_confuse_matrix[i]
+        for j in range(len(all_result)):
+            if all_batch[j] == batches[i]:
+                all_result[j] = tmp_test_result[j]
+        # curr_time = time.process_time()
     # final show
     print("Total Result")
     print("Current Process Time:", show_time(time.process_time()))
