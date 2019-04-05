@@ -11,7 +11,7 @@ from func_vectorize import *
 from func_cv import *
 # from func_cv import cv
 from func_evaluation import *
-# from func_evaluation import cv
+# from func_evaluation import show_evaluation
 
 print("Start Processing")
 print("Local Time:", time.asctime(time.localtime(time.time())))
