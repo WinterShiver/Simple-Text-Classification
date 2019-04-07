@@ -86,7 +86,7 @@ def cv(all_data, all_label, all_batch):
     print(test_confuse_matrix)
     print("Train Confuse Matrix:")
     print(train_confuse_matrix)
-    return [test_confuse_matrix, train_confuse_matrix]
+    return [test_confuse_matrix, train_confuse_matrix, all_result]
 
 def cv_batch(all_data, all_label, all_batch, batch):
     curr_time = time.process_time()

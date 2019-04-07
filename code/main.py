@@ -8,8 +8,8 @@ import math
 
 from func_vectorize import *
 # from func_vectorize import vectorize
-from func_cv import *
-# from func_cv_multi_thread import *
+# from func_cv import *
+from func_cv_multi_thread import *
 # from func_cv import cv
 from func_evaluation import *
 # from func_evaluation import cv
@@ -30,7 +30,7 @@ label_movestep = []
 
 # para: normal
 eps = 1e-3
-sen_num = 1000
+sen_num = 500
 # sen_num = 5042 # sen: index from 0 to 5042
 
 # para: vactorization
@@ -56,6 +56,7 @@ attrs = ['data_str_cleaned', 'label_dir_serialnum', 'label_file_serialnum', 'lab
 wb = openpyxl.load_workbook('../data/tmp_data_label_cleaned.xlsx')
 sheet = wb.active
 except_num = 0
+except_list = []
 for i in range(sen_num):
     data_str_elem = str(sheet.cell(row = i+2, column = 1).value)
     [data_vector_elem, data_vector_ok, data_vector_word_count] = vectorize(data_str_elem)
@@ -70,14 +71,23 @@ for i in range(sen_num):
         label_movestep.append(str(sheet.cell(row = i+2, column = 7).value))
     else:
         except_num = except_num + 1
+        except_list.append(i)
 
 print(except_num, "Out of", sen_num, "Samples is Abandoned, Percentage =", format(except_num / sen_num * 100,'.2f'))
 
 label_batch = batch_generate(sen_num - except_num, batch_num)
 
 print("Before CV, time =", time.process_time(), "seconds")
-[test_confuse_matrix, train_confuse_matrix] = cv(data_vector, label_move, label_batch)
+[test_confuse_matrix, train_confuse_matrix, cv_result] = cv(data_vector, label_move, label_batch)
 
-
+wb = openpyxl.load_workbook('../data/tmp_data_label_cleaned.xlsx')
+sheet = wb.active
+count = 0
+for i in range(sen_num):
+    if not i in except_list:
+        sheet.cell(row = i+2, column = 9).value = cv_result[count]
+        count = count + 1
+wb.save('../result/tmp_data_label_cleaned_linear+1.xlsx')
+    
 
 
