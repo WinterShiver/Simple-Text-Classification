@@ -17,12 +17,33 @@ def accuracy(matrix):
     return sum([matrix[i][i] for i in range(matrix.shape[0])])/sum(sum(matrix))
 
 def least_f1(matrix):
-    least_recall = min(recall(matrix))
-    least_precision = min(precision(matrix))
-    f1 = 2 * least_recall * least_precision / (least_recall + least_precision)
-    return [least_recall, least_precision, f1]
+    # matrix.dtype = np.float16
+    tmp_recall = min(recall(matrix))
+    tmp_precision = min(precision(matrix))
+    f1 = 2 * tmp_recall * tmp_precision / (tmp_recall + tmp_precision)
+    return [tmp_recall, tmp_precision, f1]
+
+def macro_f1(matrix):
+    # matrix.dtype = np.float16
+    tmp_recall = np.mean(recall(matrix))
+    tmp_precision = np.mean(precision(matrix))
+    f1 = 2 * tmp_recall * tmp_precision / (tmp_recall + tmp_precision)
+    return [tmp_recall, tmp_precision, f1]
+
+def micro_f1(matrix):
+    [TP, FP, FN] = [0, 0, 0]
+    for i in range(matrix.shape[0]):
+        TP += matrix[i][i]
+        FP += sum(matrix[i, :]) - matrix[i][i]
+        FN += sum(matrix[:, i]) - matrix[i][i]
+    tmp_recall = TP / (TP + FN)
+    tmp_precision = TP / (TP + FP)
+    f1 = 2 * tmp_recall * tmp_precision / (tmp_recall + tmp_precision)
+    return [tmp_recall, tmp_precision, f1]
 
 def show_evaluation(matrix):
     print("Sample:", np.sum(matrix), "Samples")
     print("Accuracy: ", accuracy(matrix))
-    print("Least Recall, Least Precision, F1: ", least_f1(matrix))
+    print("Least： tmp_recall, tmp_precision, F1: ", least_f1(matrix))
+    print("Macro： tmp_recall, tmp_precision, F1: ", macro_f1(matrix))
+    print("Micro： tmp_recall, tmp_precision, F1: ", micro_f1(matrix))
