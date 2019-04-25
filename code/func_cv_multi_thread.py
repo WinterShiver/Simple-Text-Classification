@@ -54,11 +54,12 @@ def cv(all_data, all_label, all_batch):
     batches = list(np.unique(all_batch))
     labels = list(np.unique(all_label))
     labels.sort()
+    print(labels)
     # confuse_matrix[i][j]: predict as i-th, but actually j-th
-    train_confuse_matrix = np.zeros((len(labels), len(labels)))
-    test_confuse_matrix = np.zeros((len(labels), len(labels)))
-    tmp_test_confuse_matrix = [np.zeros((len(labels), len(labels))) for batch in batches]
-    tmp_train_confuse_matrix = [np.zeros((len(labels), len(labels))) for batch in batches]
+    train_confuse_matrix = np.zeros((len(labels), len(labels)), dtype = np.int32)
+    test_confuse_matrix = np.zeros((len(labels), len(labels)), dtype = np.int32)
+    tmp_test_confuse_matrix = [np.zeros((len(labels), len(labels)), dtype = np.int32) for batch in batches]
+    tmp_train_confuse_matrix = [np.zeros((len(labels), len(labels)), dtype = np.int32) for batch in batches]
     curr_time = time.process_time()
     threads = []
     for i in range(len(batches)):
@@ -94,8 +95,8 @@ def cv_batch(all_data, all_label, all_batch, batch):
     batches = list(np.unique(all_batch))
     labels = list(np.unique(all_label))
     labels.sort()
-    tmp_train_confuse_matrix = np.zeros((len(labels), len(labels)))
-    tmp_test_confuse_matrix = np.zeros((len(labels), len(labels)))
+    tmp_train_confuse_matrix = np.zeros((len(labels), len(labels)), dtype = np.int32)
+    tmp_test_confuse_matrix = np.zeros((len(labels), len(labels)), dtype = np.int32)
     [tmp_train_data, tmp_train_label] = [[], []]
     # divide train & validation, classify
     for i in range(len(all_label)):
