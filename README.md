@@ -2,6 +2,8 @@
 
 A simple framework for text classification, including the parts of text vectorization, classification and cross validation.
 
+![Framework](framework.png)
+
 ## Run
 
 word2vec/word2vec_model.py must be run before running code/main.py, to generate w2v model. Then code/main.py could be run. Output information includes the confuse matrixs and relevant statistical data.
